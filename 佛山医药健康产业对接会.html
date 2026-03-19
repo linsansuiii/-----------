@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>佛山生物医药健康产业对接会 - 电子手册</title>
+  
+  <!-- 引入 Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- 引入 Lucide 图标库 -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* 自定义弹窗动画，保持原有的顺滑体验 */
+    @keyframes fadeInZoom {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .animate-in-zoom {
+      animation: fadeInZoom 0.2s ease-out forwards;
+    }
+    /* 隐藏滚动条但保持可滚动 */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;  /* IE and Edge */
+      scrollbar-width: none;  /* Firefox */
+    }
+  </style>
+</head>
+<body class="bg-slate-100 antialiased">
+
+  <div class="max-w-md mx-auto bg-slate-50 min-h-screen font-sans relative shadow-xl overflow-x-hidden pb-10">
+    
+    <!-- 1. 活动主 K (无图紧凑版) -->
+    <div class="relative w-full bg-gradient-to-br from-sky-900 via-sky-800 to-slate-900 overflow-hidden rounded-b-3xl shadow-md pt-10 pb-12 px-6">
+      <!-- 装饰性光晕效果 -->
+      <div class="absolute top-0 right-0 w-48 h-48 bg-sky-400/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3"></div>
+      <div class="absolute bottom-0 left-0 w-40 h-40 bg-cyan-400/20 rounded-full blur-2xl translate-y-1/2 -translate-x-1/4"></div>
+      
+      <div class="relative z-10 text-white mt-4 flex flex-col items-center text-center">
+        <div class="inline-block px-4 py-1.5 mb-4 text-sm font-semibold bg-white/10 backdrop-blur-sm rounded-full border border-white/20">
+          暖企赋能·医企协同
+        </div>
+        <h1 class="text-3xl font-black leading-snug mb-4 tracking-wide">
+          佛山生物医药健康产业<br/>
+          <span class="text-cyan-300 text-4xl drop-shadow-md leading-tight">“医工融合”</span>对接会
+        </h1>
+        <div class="inline-flex items-center px-4 py-1.5 bg-sky-600/60 backdrop-blur-md rounded-lg border border-sky-400/30">
+          <span class="text-base font-bold tracking-widest">电子手册</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="px-4 -mt-4 relative z-10 space-y-5">
+      
+      <!-- 2. 活动简介与会议议程 -->
+      <div class="bg-white rounded-2xl shadow-sm p-5 border border-slate-100">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="bg-gradient-to-br from-sky-100 to-sky-50 p-2.5 rounded-xl border border-sky-100/50 shadow-sm relative overflow-hidden">
+            <div class="absolute inset-0 bg-sky-500/10 translate-y-1"></div>
+            <i data-lucide="book-open" class="w-6 h-6 text-sky-600 relative z-10"></i>
+          </div>
+          <h2 class="text-xl font-bold text-gray-800 tracking-wide">活动简介</h2>
+        </div>
+        <p class="text-base text-gray-600 leading-relaxed mb-6 text-justify">
+          本次对接会旨在搭建佛山生物医药与健康产业“政、产、学、研、医”交流平台，深化临床需求与工程技术的精准对接，推动医疗器械创新成果转化与产业化落地，共筑区域健康产业新高地。
+        </p>
+        
+        <div class="bg-slate-50 rounded-xl p-4 border border-slate-100 transition-all duration-300">
+          <div 
+            class="flex items-center justify-between text-sky-700 font-semibold cursor-pointer select-none"
+            onclick="toggleAgenda()"
+          >
+            <div class="flex items-center gap-2">
+              <i data-lucide="clock" class="w-5 h-5"></i>
+              <span class="text-base">会议议程 (10月20日)</span>
+            </div>
+            <div class="flex items-center gap-1">
+              <span id="agenda-toggle-text" class="text-sm font-normal text-sky-600">展开</span>
+              <i id="agenda-icon-down" data-lucide="chevron-down" class="w-5 h-5 text-sky-500"></i>
+              <i id="agenda-icon-up" data-lucide="chevron-up" class="w-5 h-5 text-sky-500 hidden"></i>
+            </div>
+          </div>
+          
+          <!-- 展开的议程列表 -->
+          <div id="agenda-content" class="hidden mt-5 space-y-4 relative before:absolute before:inset-0 before:ml-2.5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-sky-100">
+            <!-- 动态渲染议程 -->
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. 政策解读 -->
+      <div class="bg-white rounded-2xl shadow-sm p-5 border border-slate-100">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="bg-gradient-to-br from-sky-100 to-sky-50 p-2.5 rounded-xl border border-sky-100/50 shadow-sm relative overflow-hidden">
+            <div class="absolute inset-0 bg-sky-500/10 translate-y-1"></div>
+            <i data-lucide="landmark" class="w-6 h-6 text-sky-600 relative z-10"></i>
+          </div>
+          <h2 class="text-xl font-bold text-gray-800 tracking-wide">政策宣导</h2>
+        </div>
+        <div id="policies-container" class="space-y-4">
+          <!-- 动态渲染政策 -->
+        </div>
+      </div>
+
+      <!-- 4. 佛山传媒健康传播矩阵 (原活动介绍) -->
+      <div class="bg-white rounded-2xl shadow-sm p-5 border border-slate-100">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="bg-gradient-to-br from-sky-100 to-sky-50 p-2.5 rounded-xl border border-sky-100/50 shadow-sm relative overflow-hidden">
+            <div class="absolute inset-0 bg-sky-500/10 translate-y-1"></div>
+            <i data-lucide="megaphone" class="w-6 h-6 text-sky-600 relative z-10"></i>
+          </div>
+          <h2 class="text-xl font-bold text-gray-800 tracking-wide">佛山传媒健康传播矩阵</h2>
+        </div>
+        <div class="relative w-full aspect-video bg-gray-900 rounded-xl overflow-hidden mb-4 group cursor-pointer shadow-md">
+          <!-- 内联高清 SVG 占位图 -->
+          <img 
+            src="data:image/svg+xml;charset=UTF-8,%3Csvg width='600' height='337' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3ClinearGradient id='g5' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%230f172a' /%3E%3Cstop offset='100%25' stop-color='%23334155' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='600' height='337' fill='url(%23g5)'/%3E%3Ctext x='300' y='168' font-family='sans-serif' font-size='28' font-weight='bold' fill='%2394a3b8' text-anchor='middle' dominant-baseline='middle'%3E占位图%3C/text%3E%3C/svg%3E" 
+            alt="传播矩阵视频封面" 
+            class="w-full h-full object-cover opacity-70 transition duration-300"
+          />
+          <div class="absolute inset-0 flex items-center justify-center">
+            <div class="w-16 h-16 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center border border-white/40 shadow-xl">
+              <i data-lucide="play-circle" class="w-10 h-10 text-white shadow-sm"></i>
+            </div>
+          </div>
+          <div class="absolute bottom-2 right-2 bg-black/70 px-2.5 py-1 rounded text-white text-xs font-medium tracking-wide">
+            03:20
+          </div>
+        </div>
+        <div class="cursor-pointer group" onclick="openEventModal()">
+          <h3 class="text-base font-bold text-gray-800 mb-2.5 transition-colors">全网矩阵触达 · 赋能品牌传播</h3>
+          <p class="text-sm text-gray-500 leading-relaxed text-justify line-clamp-3" style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
+            佛山市新闻传媒中心整合旗下电视、广播、报纸及新媒体矩阵资源，倾力打造立体化的大健康垂直传播频道。为生物医药、医疗器械等大健康企业提供品牌塑造、科普宣导、活动直播等全链路媒体服务，助力企业提升社会影响力。
+          </p>
+          <div class="mt-2 flex items-center text-xs text-sky-600 font-medium">
+            阅读全文 <i data-lucide="chevron-right" class="w-3.5 h-3.5 ml-0.5"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. 参会企业 (增加筛选与搜索) -->
+      <div class="bg-white rounded-2xl shadow-sm p-5 border border-slate-100">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="bg-gradient-to-br from-sky-100 to-sky-50 p-2.5 rounded-xl border border-sky-100/50 shadow-sm relative overflow-hidden">
+            <div class="absolute inset-0 bg-sky-500/10 translate-y-1"></div>
+            <i data-lucide="microscope" class="w-6 h-6 text-sky-600 relative z-10"></i>
+          </div>
+          <h2 class="text-xl font-bold text-gray-800 tracking-wide">参会企业</h2>
+        </div>
+
+        <!-- 搜索框 -->
+        <div class="relative mb-4">
+          <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400"></i>
+          <input 
+            type="text" 
+            id="search-input" 
+            placeholder="搜索企业名称..." 
+            class="w-full bg-slate-50 border border-slate-200 rounded-xl py-2 pl-9 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500/50 transition"
+            oninput="handleSearch(event)"
+          >
+        </div>
+
+        <!-- 分类 Tab 筛选 -->
+        <div id="category-tabs" class="flex gap-2 overflow-x-auto no-scrollbar mb-4 pb-1">
+          <!-- 动态渲染 Tabs -->
+        </div>
+
+        <!-- 企业列表 -->
+        <div id="enterprises-container" class="grid grid-cols-2 gap-4">
+          <!-- 动态渲染参会企业 -->
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="py-6 text-center text-sm text-gray-400">
+        <p>主办单位：佛山市卫生健康局 · 佛山市新闻传媒中心</p>
+        <p class="mt-1.5">© 2026 佛山生物医药健康产业对接会</p>
+      </div>
+    </div>
+
+    <!-- 弹窗容器区 -->
+    
+    <!-- 1. 企业详情 Modal -->
+    <div id="company-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm transition-opacity">
+      <div class="bg-white rounded-2xl w-full max-w-sm overflow-hidden shadow-2xl animate-in-zoom">
+        <div class="relative">
+          <img id="modal-company-img" src="" alt="封面" class="w-full h-56 object-cover" />
+          <button onclick="closeModal('company-modal')" class="absolute top-4 right-4 bg-black/40 text-white p-2 rounded-full backdrop-blur-md">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+        <div class="p-6 max-h-[55vh] overflow-y-auto no-scrollbar">
+          <div id="modal-company-category" class="text-xs font-bold text-sky-600 mb-1"></div>
+          <h2 id="modal-company-name" class="text-xl font-bold text-gray-800 mb-4"></h2>
+          <div class="w-12 h-1.5 bg-sky-500 rounded-full mb-5"></div>
+          <p id="modal-company-details" class="text-base text-gray-600 leading-relaxed text-justify whitespace-pre-line"></p>
+          <button onclick="closeModal('company-modal')" class="mt-8 w-full py-3 bg-sky-50 text-sky-700 font-bold rounded-xl text-base">关闭</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. 政策详情 Modal -->
+    <div id="policy-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm transition-opacity">
+      <div class="bg-white rounded-2xl w-full max-w-sm overflow-hidden shadow-2xl animate-in-zoom">
+        <div class="p-6 max-h-[70vh] overflow-y-auto no-scrollbar relative">
+          <button onclick="closeModal('policy-modal')" class="absolute top-4 right-4 text-gray-400">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+          <div id="modal-policy-dept" class="text-sm font-bold text-sky-600 mb-2"></div>
+          <h2 id="modal-policy-title" class="text-lg font-bold text-gray-800 mb-4 pr-6"></h2>
+          <div class="w-12 h-1.5 bg-sky-500 rounded-full mb-5"></div>
+          <p id="modal-policy-details" class="text-sm text-gray-600 leading-relaxed text-justify whitespace-pre-line"></p>
+          <button onclick="closeModal('policy-modal')" class="mt-8 w-full py-3 bg-sky-50 text-sky-700 font-bold rounded-xl text-base">关闭</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. 佛山传媒矩阵详情 Modal -->
+    <div id="event-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm transition-opacity">
+      <div class="bg-white rounded-2xl w-full max-w-sm overflow-hidden shadow-2xl animate-in-zoom">
+        <div class="p-6 max-h-[70vh] overflow-y-auto no-scrollbar relative">
+          <button onclick="closeModal('event-modal')" class="absolute top-4 right-4 text-gray-400">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+          <h2 class="text-xl font-bold text-gray-800 mb-4 pr-6">全网矩阵触达 · 赋能品牌传播</h2>
+          <div class="w-12 h-1.5 bg-sky-500 rounded-full mb-5"></div>
+          <p class="text-base text-gray-600 leading-relaxed text-justify whitespace-pre-line">
+            佛山市新闻传媒中心整合旗下电视、广播、报纸及新媒体矩阵资源，倾力打造立体化的大健康垂直传播频道。为生物医药、医疗器械等大健康企业提供品牌塑造、科普宣导、活动直播等全链路媒体服务，助力企业提升社会影响力。
+
+            中心依托超千万粉丝的全网矩阵，搭建了包含《健康佛山》、《医工前沿》等多档专业融媒栏目。通过内容共创与渠道共享，赋能本土创新企业，实现“科研-临床-产业-公众”的高效信息触达，共同营造良好的区域健康产业生态。
+          </p>
+          <button onclick="closeModal('event-modal')" class="mt-8 w-full py-3 bg-sky-50 text-sky-700 font-bold rounded-xl text-base">关闭</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- JavaScript 逻辑区 -->
+  <script>
+    // --- 数据定义 ---
+
+    const agendaData = [
+      { time: '08:30 - 09:00', title: '嘉宾签到', desc: '签到处进行电子签到，领取会议手册及参会证件。' },
+      { time: '09:00 - 09:20', title: '领导致辞', desc: '佛山市卫健局、科技局等相关部门领导开场致辞。' },
+      { time: '09:20 - 10:00', title: '“医工融合”主题演讲', desc: '特邀知名院士及行业顶尖专家分享医疗器械前沿趋势与融合创新路径。' },
+      { time: '10:00 - 10:40', title: '相关产业政策宣贯', desc: '详细解读最新生物医药与健康产业扶持政策及申报指南。' },
+      { time: '10:40 - 11:30', title: '重点企业路演与技术推介', desc: '遴选4家优质创新企业进行项目路演，展示最新医工转化成果。' },
+      { time: '11:30 - 12:00', title: '自由对接交流', desc: '设立专区，供参会企业、投资机构、科研院所进行面对面深度洽谈。' },
+    ];
+
+    const policyData = [
+      {
+        dept: '佛山市卫生健康局',
+        title: '关于支持医疗机构开展医工交叉协同创新的若干措施',
+        desc: '鼓励医疗机构与科研院所、企业联合开展医疗器械及生物医药创新研发，提供临床试验绿色通道。',
+        details: '一、设立专项联合研发基金，首期投入5000万元，支持医疗机构主导的早期研发。\n二、建立市级三甲医院临床试验（GCP）快速伦理审查机制，承诺5个工作日内完成初审。\n三、鼓励医务人员参与创新，对成功实现成果转化的医护人员，可给予不低于70%的科技成果转化收益分配比例。'
+      },
+      {
+        dept: '佛山市科学技术局',
+        title: '佛山市生物医药与健康产业科技创新专项资金申报指南',
+        desc: '对重大技术攻关项目、创新平台建设给予最高500万元的科研资金补助。',
+        details: '一、重点支持高端医疗装备、创新药及新型生物材料的核心技术攻关，单项资助最高500万元。\n二、支持企业联合医院共建重点实验室或工程技术研究中心，按建设投入的30%给予最高300万元补贴。\n三、对于获得国家级科技奖项的本地转化项目，给予1:1资金配套奖励。'
+      },
+      {
+        dept: '佛山市工业和信息化局',
+        title: '促进高端医疗器械产业集群高质量发展扶持办法',
+        desc: '针对首次取得医疗器械注册证并在本地产业化的企业，给予专项产业化奖补。',
+        details: '一、对新取得二类、三类医疗器械注册证并在本市投产的企业，单个产品分别给予最高100万元、300万元奖励。\n二、支持企业数字化智能化转型，对建设智能制造示范工厂的医疗器械企业，按项目固定资产投资额的20%给予最高2000万元补贴。\n三、鼓励医疗机构优先采购本地创新医疗器械产品，出台首台（套）重大技术装备推荐目录。'
+      }
+    ];
+
+    // 国内安全无阻加载的内联 SVG 封面设计
+    const genSvg = (color1, color2, text) => {
+      return `data:image/svg+xml;charset=UTF-8,%3Csvg width='400' height='533' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3ClinearGradient id='g1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23${color1}' /%3E%3Cstop offset='100%25' stop-color='%23${color2}' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='533' fill='url(%23g1)'/%3E%3Ctext x='200' y='266' font-family='sans-serif' font-size='32' font-weight='bold' fill='%23ffffff' text-anchor='middle' dominant-baseline='middle'%3E${text}%3C/text%3E%3C/svg%3E`;
+    }
+
+    const enterprisesData = [
+      {
+        id: 0,
+        name: '智健医疗公司',
+        category: '医疗器械',
+        img: genSvg('38bdf8', '0284c7', '占位图'),
+        details: '佛山智健医疗器械有限公司是一家专注于智能康复设备研发与制造的高新技术企业。公司核心团队来自国内外知名高校，拥有多项核心专利。主要产品包括外骨骼康复机器人、智能关节活动仪等。致力于通过“医工结合”为患者提供更精准的康复治疗方案。'
+      },
+      {
+        id: 1,
+        name: '博萃生物公司',
+        category: '体外诊断',
+        img: genSvg('818cf8', '4338ca', '占位图'),
+        details: '广东博萃生物科技有限公司致力于体外诊断试剂（IVD）及高端检测仪器的研发。公司拥有符合GMP标准的万级净化车间，目前已有多款心血管及肿瘤标志物检测试剂盒取得NMPA认证。'
+      },
+      {
+        id: 2,
+        name: '精研微创公司',
+        category: '医疗器械',
+        img: genSvg('34d399', '059669', '占位图'),
+        details: '精研微创专注于微创外科手术器械的创新与国产替代。主打产品包括一次性使用超声刀头、电子内窥镜系统等。公司与佛山多家三甲医院建立了紧密的临床转化合作机制。'
+      },
+      {
+        id: 3,
+        name: '医联数据公司',
+        category: '智慧医疗',
+        img: genSvg('c084fc', '9333ea', '占位图'),
+        details: '医联数据提供全面的智慧医院信息化解决方案。利用大数据和人工智能技术，打造覆盖诊前、诊中、诊后的全流程健康管理平台，助力医疗机构实现数字化转型。'
+      }
+    ];
+
+    // 全局状态 (供筛选功能使用)
+    const enterpriseCategories = ['全部', '医疗器械', '体外诊断', '智慧医疗'];
+    let activeCategory = '全部';
+    let searchQuery = '';
+
+    // --- DOM 渲染与交互 ---
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. 渲染议程
+      const agendaContainer = document.getElementById('agenda-content');
+      agendaData.forEach(item => {
+        agendaContainer.innerHTML += `
+          <div class="relative flex items-start gap-4">
+            <div class="absolute left-0 w-5 h-5 rounded-full border-[3px] border-sky-500 bg-white mt-1"></div>
+            <div class="ml-9 w-full bg-white p-4 rounded-xl shadow-sm border border-slate-50 text-base">
+              <div class="text-sky-600 font-bold text-sm mb-1.5">${item.time}</div>
+              <div class="text-gray-800 font-semibold mb-1.5">${item.title}</div>
+              <div class="text-gray-500 text-sm leading-relaxed">${item.desc}</div>
+            </div>
+          </div>
+        `;
+      });
+
+      // 2. 渲染政策
+      const policiesContainer = document.getElementById('policies-container');
+      policyData.forEach((policy, index) => {
+        policiesContainer.innerHTML += `
+          <div class="p-4 rounded-xl bg-gradient-to-br from-sky-50 to-white border border-sky-100 relative">
+            <div class="flex justify-between items-center mb-3">
+              <div class="text-sm font-bold text-white bg-sky-600 inline-block px-2.5 py-1 rounded">
+                ${policy.dept}
+              </div>
+              <button onclick="openPolicyModal(${index})" class="text-xs text-sky-600 font-semibold flex items-center">
+                了解更多 <i data-lucide="chevron-right" class="w-4 h-4"></i>
+              </button>
+            </div>
+            <h3 class="text-base font-bold text-gray-800 mb-2">${policy.title}</h3>
+            <p class="text-sm text-gray-500 leading-relaxed mb-1">${policy.desc}</p>
+          </div>
+        `;
+      });
+
+      // 初始化企业筛选 Tab 与 列表
+      renderTabs();
+      renderEnterprises();
+
+      // 初始化全局图标
+      lucide.createIcons();
+    });
+
+    // --- 企业分类筛选与搜索逻辑 ---
+
+    function renderTabs() {
+      const tabsContainer = document.getElementById('category-tabs');
+      tabsContainer.innerHTML = '';
+      
+      enterpriseCategories.forEach(cat => {
+        const isActive = cat === activeCategory;
+        const btnClass = isActive 
+          ? 'px-3.5 py-1.5 bg-sky-600 text-white rounded-lg text-sm font-medium whitespace-nowrap shadow-sm transition-colors'
+          : 'px-3.5 py-1.5 bg-slate-100 text-slate-600 rounded-lg text-sm font-medium whitespace-nowrap hover:bg-slate-200 transition-colors cursor-pointer';
+          
+        tabsContainer.innerHTML += `
+          <button onclick="setCategory('${cat}')" class="${btnClass}">
+            ${cat}
+          </button>
+        `;
+      });
+    }
+
+    function setCategory(cat) {
+      activeCategory = cat;
+      renderTabs();
+      renderEnterprises();
+    }
+
+    function handleSearch(e) {
+      searchQuery = e.target.value.toLowerCase().trim();
+      renderEnterprises();
+    }
+
+    function renderEnterprises() {
+      const container = document.getElementById('enterprises-container');
+      container.innerHTML = '';
+      
+      // 过滤逻辑
+      const filtered = enterprisesData.filter(ent => {
+        const matchCategory = activeCategory === '全部' || ent.category === activeCategory;
+        const matchSearch = ent.name.toLowerCase().includes(searchQuery);
+        return matchCategory && matchSearch;
+      });
+
+      // 空状态展示
+      if (filtered.length === 0) {
+        container.innerHTML = `<div class="col-span-2 text-center py-8 text-sm text-gray-400 bg-slate-50 rounded-xl">没有找到匹配的企业</div>`;
+        return;
+      }
+
+      // 渲染过滤后的企业
+      filtered.forEach((ent) => {
+        container.innerHTML += `
+          <div class="group border border-slate-100 rounded-xl overflow-hidden shadow-sm bg-white cursor-pointer flex flex-col" onclick="openCompanyModal(${ent.id})">
+            <div class="aspect-[3/4] w-full overflow-hidden bg-slate-100 relative">
+              <img src="${ent.img}" alt="${ent.name}" class="w-full h-full object-cover" />
+              <div class="absolute top-2 left-2 bg-black/50 backdrop-blur-md text-white text-[10px] px-2 py-0.5 rounded-sm">
+                ${ent.category}
+              </div>
+            </div>
+            <div class="p-3 flex-1 flex flex-col justify-center items-center text-center">
+              <h4 class="text-sm font-bold text-gray-800 leading-snug" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${ent.name}</h4>
+              <div class="mt-2 flex items-center text-xs text-sky-600 font-medium">
+                了解详情 <i data-lucide="chevron-right" class="w-3.5 h-3.5 ml-0.5"></i>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+
+      // 重新实例化新增 DOM 里的图标
+      lucide.createIcons();
+    }
+
+    // --- 弹窗交互函数 ---
+
+    function toggleAgenda() {
+      const content = document.getElementById('agenda-content');
+      const text = document.getElementById('agenda-toggle-text');
+      const iconUp = document.getElementById('agenda-icon-up');
+      const iconDown = document.getElementById('agenda-icon-down');
+      
+      if (content.classList.contains('hidden')) {
+        content.classList.remove('hidden');
+        text.innerText = '收起';
+        iconUp.classList.remove('hidden');
+        iconDown.classList.add('hidden');
+      } else {
+        content.classList.add('hidden');
+        text.innerText = '展开';
+        iconUp.classList.add('hidden');
+        iconDown.classList.remove('hidden');
+      }
+    }
+
+    function openCompanyModal(id) {
+      const company = enterprisesData.find(c => c.id === id);
+      document.getElementById('modal-company-img').src = company.img;
+      document.getElementById('modal-company-category').innerText = company.category;
+      document.getElementById('modal-company-name').innerText = company.name;
+      document.getElementById('modal-company-details').innerText = company.details;
+      
+      const modal = document.getElementById('company-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function openPolicyModal(index) {
+      const policy = policyData[index];
+      document.getElementById('modal-policy-dept').innerText = policy.dept;
+      document.getElementById('modal-policy-title').innerText = policy.title;
+      document.getElementById('modal-policy-details').innerText = policy.details;
+      
+      const modal = document.getElementById('policy-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function openEventModal() {
+      const modal = document.getElementById('event-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeModal(modalId) {
+      const modal = document.getElementById(modalId);
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+  </script>
+</body>
+</html>
